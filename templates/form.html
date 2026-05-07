@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>{{ 'Editar' if p else 'Nuevo' }} Héroe | S.H.I.E.L.D.</title>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="brand">Base de datos SuperHeroes</div>
+        <div class="nav-links">
+            <a href="/">← VOLVER</a>
+        </div>
+    </nav>
+
+    <div class="form-wrapper">
+        
+        <div class="form-visual">
+            <img id="preview" 
+                 src="{{ url_for('static', filename='image/characters/' + p.imagenes[0]) if p else '' }}" 
+                 onerror="this.src='https://via.placeholder.com/1280?text=ESPERANDO+DATOS'">
+        </div>
+
+        <div class="form-content">
+            <h1 style="font-weight: 900; color: var(--primary); margin: 0 0 40px 0;">
+                {{ 'MODIFICAR' if p else 'NUEVO' }} REGISTRO
+            </h1>
+            
+            <form action="/save" method="POST">
+                {% if p %}<input type="hidden" name="id" value="{{ p._id }}">{% endif %}
+                
+                <div class="field-group">
+                    <label class="field-label">Nombre del Superhéroe</label>
+                    <input type="text" id="nombreInput" name="nombre" class="form-control" 
+                           placeholder="Ej: Iron Man" value="{{ p.nombre if p else '' }}" required>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Identidad Real</label>
+                    <input type="text" name="nombreReal" class="form-input form-control" 
+                           placeholder="Ej: Tony Stark" value="{{ p.nombreReal if p else '' }}">
+                </div>
+
+                <div style="display: flex; gap: 20px;">
+                    <div class="field-group" style="flex:1">
+                        <label class="field-label">Universo</label>
+                        <select name="casa" class="form-control">
+                            <option value="MARVEL" {{ 'selected' if p and p.casa == 'MARVEL' else '' }}>MARVEL</option>
+                            <option value="DC" {{ 'selected' if p and p.casa == 'DC' else '' }}>DC</option>
+                        </select>
+                    </div>
+                    <div class="field-group" style="flex:1">
+                        <label class="field-label">Año Debut</label>
+                        <input type="number" name="anioAparicion" class="form-control" 
+                               placeholder="1963" value="{{ p.anioAparicion if p else '' }}">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Biografía</label>
+                    <textarea name="biografia" class="form-control" required>{{ p.biografia if p else '' }}</textarea>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Equipamiento</label>
+                    <input type="text" name="equipamiento" class="form-control" 
+                           placeholder="Ej: Mark L Armor" value="{{ p.equipamiento if p else '' }}">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Archivos de Imagen (separados por coma)</label>
+                    <input type="text" id="inputImg" name="imagenes" class="form-control" 
+                        placeholder="ej: batman.png, batman_2.png, batman_3.png" 
+                        value="{{ p.imagenes|join(',') if p else '' }}">
+                    <small style="color: #666; font-size: 0.7rem;">
+                        * Escribí los nombres de los archivos que tenés en la carpeta characters.
+                    </small>
+                </div>
+                <input type="hidden" id="hiddenImg" name="imagenes" value="{{ p.imagenes|join(',') if p else '' }}">
+
+                <button type="submit" class="btn-main" style="border-radius: 12px; margin-top: 10px;">
+                    ENVIAR A BASE DE DATOS
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const nombreIn = document.getElementById('nombreInput');
+        const imgPre = document.getElementById('preview');
+        const hiddenIn = document.getElementById('hiddenImg');
+
+        nombreIn.addEventListener('input', () => {
+            // Convierte "Spider Man" en "spider_man.png"
+            let file = nombreIn.value.toLowerCase().trim().replace(/\s+/g, '_') + ".png";
+            imgPre.src = "/static/image/characters/" + file;
+            hiddenIn.value = file;
+        });
+        inputImg.addEventListener('change', () => {
+    const fotos = inputImg.value.split(',');
+    if (fotos.length > 0) {
+        imgPre.src = "/static/image/characters/" + fotos[0].trim();
+    }
+});
+    </script>
+</body>
+</html>

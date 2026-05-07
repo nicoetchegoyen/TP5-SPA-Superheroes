@@ -1,0 +1,295 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+:root {
+    --primary: #F2C94C; 
+    --bg: #0A0A0A;      
+    --card-bg: #161616; 
+    --text: #FFFFFF;
+    --grey: #2A2A2A;
+}
+
+/* RESET GENERAL */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* NAVBAR ESTILO DOSSIER */
+.navbar {
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1.2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--grey);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.brand {
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+
+.nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+#buscador {
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto;
+    display: block;
+    background: #111;
+    border: 1px solid var(--grey);
+    padding: 18px 25px;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.4s;
+}
+
+#buscador:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(242, 201, 76, 0.1);
+}
+
+.container {
+    display: grid;
+    /* auto-fill con guion para que no se rompan las columnas */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 35px;
+    padding: 0 5% 100px;
+    align-items: stretch;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    overflow: hidden; /* Esto recorta el botón y la imagen a los bordes redondeados */
+    display: flex;
+    flex-direction: column;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid var(--grey);
+    height: 100%;
+    max-width: 350px;
+    margin: auto;
+}
+
+.card:hover {
+    transform: translateY(-12px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+/* CAJA DE IMAGEN */
+.img-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #000;
+    overflow: hidden;
+}
+
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+}
+
+/* CUERPO DE LA CARTA */
+.card-body {
+    padding: 22px;
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.card-subtitle {
+    color: var(--primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin: 5px 0 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* TEXTO TRUNCADO */
+.card-text {
+    font-size: 0.85rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    
+    /* Limitamos a exactamente 3 líneas */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 4.8em; 
+}
+
+/* BOTÓN FINAL */
+.btn-main {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: var(--primary);
+    color: #000;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none;
+    margin: 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-main:hover {
+    background: #e5bc3d;
+}
+
+/* AJUSTE PARA VISTA DE DETALLE */
+.house-logo {
+    height: 40px;
+    width: auto;
+    margin-bottom: 20px;
+}
+
+/* --- ESTILOS EXTRA PARA FORMULARIO --- */
+.form-wrapper {
+    max-width: 1000px;
+    margin: 60px auto;
+    background: var(--card-bg);
+    border-radius: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; 
+    overflow: hidden;
+    border: 1px solid var(--grey);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.form-visual {
+    background: #000;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-visual img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 2px solid var(--grey);
+}
+
+.form-content {
+    padding: 50px;
+}
+
+.field-group {
+    margin-bottom: 20px;
+}
+
+.field-label {
+    display: block;
+    color: #666;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+/* ESTILO DE LOS INPUTS*/
+.form-control {
+    width: 100%;
+    background: #000;
+    border: 1px solid var(--grey);
+    padding: 12px 15px;
+    color: white;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(242, 201, 76, 0.1);
+}
+
+textarea.form-control {
+    height: 100px;
+    resize: none;
+}
+
+/* --- ALERTAS / MENSAJES FLASH --- */
+.alert-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.alert {
+    padding: 15px 25px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid transparent;
+}
+
+/* Color para Éxito (Guardar, Editar, Borrar) */
+.alert-success {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+    border-color: #27ae60;
+}
+
+/* Color para Error */
+.alert-danger {
+    background-color: rgba(235, 87, 87, 0.1);
+    color: #eb5757;
+    border-color: #eb5757;
+}

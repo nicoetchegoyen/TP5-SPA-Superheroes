@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>{{ p.nombre }} | Inteligencia S.H.I.E.L.D.</title>
+    
+    <style>
+        /* RESET DE SEGURIDAD: Evita que cualquier estilo global rompa el detalle */
+        .detail-wrapper img {
+            max-width: none; 
+        }
+
+        .detail-wrapper {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: flex;
+            gap: 60px;
+            padding: 0 40px;
+            align-items: flex-start;
+        }
+
+        /* COLUMNA IZQUIERDA: La imagen del héroe */
+        .visual-column {
+            flex: 0 0 400px; 
+            position: sticky;
+            top: 100px;
+        }
+
+        .hero-frame {
+            width: 400px;
+            height: 400px; 
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid #333;
+            background: #000;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        .hero-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* COLUMNA DERECHA: La información */
+        .info-column {
+            flex: 1;
+        }
+
+        /* LOGO DE LA CASA*/
+        .brand-badge {
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .brand-badge img {
+            height: 35px !important; 
+            width: auto !important;  
+            display: block;
+        }
+
+        /* TIPOGRAFÍA */
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin: 0;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            color: #fff;
+        }
+
+        .hero-subtitle {
+            color: var(--gold, #F2C94C);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin: 10px 0 30px 0;
+            text-transform: uppercase;
+        }
+
+        /* BLOQUES DE DATOS */
+        .stats-row {
+            display: flex;
+            gap: 50px;
+            border-top: 1px solid #222;
+            padding-top: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-item span {
+            color: #666;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stat-item p {
+            margin: 5px 0 0 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .biography-text {
+    background: rgba(255, 255, 255, 0.03); /* Fondo sutil */
+    padding: 30px;
+    border-radius: 15px;
+    border-left: 4px solid var(--gold, #F2C94C);
+    line-height: 1.8;
+    color: #ccc;
+    font-size: 1rem;
+    
+    max-height: 350px;        
+    overflow-y: auto;       
+    overflow-wrap: break-word; 
+    word-break: break-word;
+    white-space: pre-line;   
+    
+    /* ESTÉTICA DOSSIER */
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/*  SCROLLBAR customizada*/
+.biography-text::-webkit-scrollbar {
+    width: 6px;
+}
+.biography-text::-webkit-scrollbar-track {
+    background: transparent;
+}
+.biography-text::-webkit-scrollbar-thumb {
+    background: var(--gold, #F2C94C);
+    border-radius: 10px;
+}
+
+        /* NAVEGACIÓN CARRUSEL */
+        .nav-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.6); color: #fff; border: none;
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+            z-index: 5; transition: 0.3s;
+        }
+        .nav-arrow:hover { background: var(--gold, #F2C94C); color: #000; }
+
+        #slider {
+            display: flex; height: 100%; transition: 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="/" style="color: var(--gold, #F2C94C); text-decoration: none; font-weight: 800; font-size: 0.8rem; letter-spacing: 2px;">
+            ← VOLVER AL INICIO
+        </a>
+        <div class="nav-links">
+            <a href="/edit/{{ p._id }}">MODIFICAR</a>
+            <a href="/delete/{{ p._id }}" style="color: #ff4d4d; margin-left: 20px;" onclick="return confirm('¿Eliminar registro?')">ELIMINAR</a>
+        </div>
+    </nav>
+
+    <div class="detail-wrapper">
+        
+        <div class="visual-column">
+            <div class="hero-frame">
+                <div id="slider" data-total="{{ p.imagenes|length }}">
+                    {% for img in p.imagenes %}
+                    <img src="{{ url_for('static', filename='image/characters/' + img.strip()) }}">
+                    {% endfor %}
+                </div>
+                
+                {% if p.imagenes|length > 1 %}
+                <button class="nav-arrow" style="left: 10px;" onclick="move(-1)">❮</button>
+                <button class="nav-arrow" style="right: 10px;" onclick="move(1)">❯</button>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="info-column">
+            <div class="brand-badge">
+                {% if p.casa == 'MARVEL' %}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Marvel_Logo.svg">
+                {% else %}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/DC_Comics_logo.svg">
+                {% endif %}
+            </div>
+
+            <h1 class="hero-title">{{ p.nombre }}</h1>
+            <p class="hero-subtitle">IDENTIDAD: {{ p.nombreReal }}</p>
+            
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span>Aparición</span>
+                    <p>{{ p.anioAparicion }}</p>
+                </div>
+                <div class="stat-item">
+                    <span>Estado</span>
+                    <p style="color: #27ae60;">CONFIRMADO</p>
+                </div>
+                <div class="stat-item">
+                    <span>Equipamiento</span>
+                    <p style="font-size: 1rem; color: #eee; font-weight: 400;">{{ p.equipamiento }}</p>
+                </div>
+            </div>
+
+            <div class="biography-text">
+                {{ p.biografia }}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pos = 0;
+        const slider = document.getElementById('slider');
+        const totalImg = parseInt(slider.getAttribute('data-total')) || 0;
+
+        function move(dir) {
+            if (totalImg <= 1) return;
+            pos = (pos + dir + totalImg) % totalImg;
+            slider.style.transform = `translateX(-${pos * 100}%)`;
+        }
+    </script>
+</body>
+</html>
