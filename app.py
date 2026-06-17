@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = "super_secret_key_marvel_dc"
 
 # nos conectamos a la base de datos de mongo que está corriendo en docker
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient('mongodb://superheroe_db:27017/')
 db = client['super_db']
 collection = db['personajes']
 
@@ -89,4 +89,4 @@ def delete(id):
 
 # prendemos el servidor en el puerto 5001 y activamos el modo debug para ver errores en tiempo real
 if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)

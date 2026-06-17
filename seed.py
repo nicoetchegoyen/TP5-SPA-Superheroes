@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 # nos conectamos a la base local de docker
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient('mongodb://superheroe_db:27017/')
 db = client['super_db']
 col = db['personajes']
 
